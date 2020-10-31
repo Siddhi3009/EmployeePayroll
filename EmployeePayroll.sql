@@ -22,3 +22,14 @@ select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'employee_payroll';
 update employee_payroll set Gender = 'M' where name = 'Bill' or name = 'Charlie';
 update employee_payroll set Gender = 'F' where name = 'Terissa';
 select * from employee_payroll;
+select SUM(salary) from employee_payroll
+where gender = 'M'
+group by gender;
+select AVG(salary), gender from employee_payroll
+group by gender;
+select MIN(salary), gender from employee_payroll
+group by gender;
+select MAX(salary), gender from employee_payroll
+group by gender;
+select COUNT(gender), gender from employee_payroll
+group by gender;
