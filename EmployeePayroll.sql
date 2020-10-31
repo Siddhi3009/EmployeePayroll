@@ -16,3 +16,9 @@ insert into employee_payroll values
 select * from employee_payroll;
 select salary from employee_payroll where name = 'Bill';
 select * from employee_payroll where start between '2018-01-01' and GETDATE();
+Alter table employee_payroll
+Add Gender char;
+select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'employee_payroll';
+update employee_payroll set Gender = 'M' where name = 'Bill' or name = 'Charlie';
+update employee_payroll set Gender = 'F' where name = 'Terissa';
+select * from employee_payroll;
