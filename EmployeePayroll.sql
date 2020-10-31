@@ -14,3 +14,5 @@ insert into employee_payroll values
 ('Terissa',200000.00,'2019-11-13'),
 ('Charlie',300000.00,'2020-05-21');
 select * from employee_payroll;
+select salary from employee_payroll where name = 'Bill';
+select * from employee_payroll where start between '2018-01-01' and GETDATE();
