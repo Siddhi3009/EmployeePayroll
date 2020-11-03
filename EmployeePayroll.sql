@@ -58,3 +58,5 @@ Update employee_payroll set department = 'Marketting' where id = 2;
 --Adding constraints
 alter table employee_payroll add constraint default_address default 'India' for address
 alter table employee_payroll alter column department varchar(20) Not null
+--Add salary divisions
+alter table employee_payroll add deduction float, taxable_pay real, income_tax real, net_pay real
