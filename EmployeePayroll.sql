@@ -62,3 +62,7 @@ alter table employee_payroll alter column department varchar(20) Not null
 alter table employee_payroll add deduction float, taxable_pay real, income_tax real, net_pay real
 --Rename salary column
 EXEC sp_rename 'employee_payroll.salary', 'basic_pay', 'COLUMN';
+--Redundant data for Terissa added with department change 
+insert into employee_payroll (name, start, basic_pay, department) values
+('Terissa', '2019-11-13', '200000', 'Sales');
+select * from employee_payroll
