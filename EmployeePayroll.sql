@@ -60,3 +60,5 @@ alter table employee_payroll add constraint default_address default 'India' for 
 alter table employee_payroll alter column department varchar(20) Not null
 --Add salary divisions
 alter table employee_payroll add deduction float, taxable_pay real, income_tax real, net_pay real
+--Rename salary column
+EXEC sp_rename 'employee_payroll.salary', 'basic_pay', 'COLUMN';
