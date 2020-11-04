@@ -118,3 +118,44 @@ insert into Payroll values
 (1,'2018-01-03', 100000, 10000, 90000, 1000, 89000),
 (2, '2019-11-13', 200000, 10000, 190000,3000,187000),
 (3, '2020-05-21', 300000, 20000, 280000, 5000, 275000);
+
+--Retrieve all data
+select * from ((employee emp inner join Payroll payroll on (emp.Id = payroll.Id)) 
+inner join EmployeeDepartment department on (emp.Id = department.EmployeeId))
+--retrieve salary information of bill 
+select emp.Name, pay.Basic_pay from Payroll pay inner join employee emp
+on pay.Id = emp.Id
+where emp.Name = 'Bill';
+--retrieve employee names who started after 2018
+select emp.Name from employee emp left join payroll pay 
+on emp.Id = pay.Id
+where pay.Start between cast('2018-01-01' as date) and GETDATE();
+
+--Aggregate operationsby gender
+
+--Total of basic pay by gender
+select emp.gender, Sum(payroll.Basic_pay)  
+from Payroll payroll inner join employee emp
+on payroll.Id = emp.Id
+group by gender;
+--Average of basic pay by gender
+select emp.gender, AVG(payroll.Basic_pay)  
+from Payroll payroll inner join employee emp
+on payroll.Id = emp.Id
+group by gender;
+--Count number of employees by gender
+select gender, Count(Name)  
+from employee 
+group by gender;
+--Minimum salary of male employees
+select MIN(payroll.Basic_pay)  
+from Payroll payroll inner join employee emp
+on payroll.Id = emp.Id
+where emp.Gender = 'M'
+group by gender;
+--Maximum salary of male employees
+select MAX(payroll.Basic_pay)  
+from Payroll payroll inner join employee emp
+on payroll.Id = emp.Id
+where emp.Gender = 'M'
+group by gender;
