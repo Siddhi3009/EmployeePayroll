@@ -66,83 +66,10 @@ EXEC sp_rename 'employee_payroll.salary', 'basic_pay', 'COLUMN';
 insert into employee_payroll (name, start, basic_pay, department) values
 ('Terissa', '2019-11-13', '200000', 'Sales');
 select * from employee_payroll
---create employee Employeedepartment table
-create table EmployeeDepartment
-(
-id int not null,
-name varchar(25) not null,
-department varchar(20) not null
-);
---insert enteries into the department table
-insert into EmployeeDepartment values
-(1,'Bill', 'Sales'),
-(2,'Terissa', 'Sales'),
-(3,'Charlie', 'Sales'),
-(2,'Terissa','Marketting');
---creating employee table
-create table employee
-(
-Id int identity(1,1) not null,
-Name varchar(25) not null,
-Gender char(1) not null,
-Phone_Number varchar(13) not null,
-Address varchar(250) not null default 'India',
-);
--- insert data into employee table
-insert into employee values
-('Bill', 'M', '9424787443', 'Shanti Nagar'),
-('Terissa', 'F', '8109322276', 'Damoh Naka'),
-('Charlie', 'M', '9926707344', 'Panchsheel Nagar');
---create payroll table
-create table Payroll
-(
-Id int not null,
-Name varchar(25) not null,
-Start date not null,
-Basic_pay money not null,
-Deduction money,
-Taxable_pay money,
-Income_tax money,
-Net_pay money not null
-);
---insert data in payroll
-insert into Payroll values
-(1, 'Bill', '2018-01-03', 100000, 10000, 90000, 1000, 89000),
-(2, 'Terissa', '2019-11-13', 200000, 10000, 190000,3000,187000),
-(3,'Charlie', '2020-05-21', 300000, 20000, 280000, 5000, 275000);
---Retrieve all data
-select * from ((employee emp inner join Payroll payroll on (emp.Id = payroll.Id)) 
-inner join EmployeeDepartment department on (emp.Id = department.id))
---retrieve salary information of bill 
-select * from Payroll 
-where payroll.Name = 'Bill';
---retrieve employee names who started after 2018
-select Id, Name, Start  from Payroll where start between cast('2018-01-01' as date) and GETDATE();
---Aggregate operationsby gender
-
---Total of basic pay by gender
-select emp.gender, Sum(payroll.Basic_pay)  
-from Payroll payroll inner join employee emp
-on payroll.Id = emp.Id
-group by gender;
---Average of basic pay by gender
-select emp.gender, AVG(payroll.Basic_pay)  
-from Payroll payroll inner join employee emp
-on payroll.Id = emp.Id
-group by gender;
---Count number of employees by gender
-select gender, Count(Name)  
-from employee 
-group by gender;
---Minimum salary of male employees
-select MIN(payroll.Basic_pay)  
-from Payroll payroll inner join employee emp
-on payroll.Id = emp.Id
-where emp.Gender = 'M'
-group by gender;
---Maximum salary of male employees
-select MAX(payroll.Basic_pay)  
-from Payroll payroll inner join employee emp
-on payroll.Id = emp.Id
-where emp.Gender = 'M'
-group by gender;
+--Update information for every employee
+Update employee_payroll 
+set phone_number = '9926707344', address = 'Damoh Naka', deduction = 1000, taxable_pay = 99000, income_tax = 5000, net_pay = 94000 where id = 1
+Update employee_payroll
+set phone_number = '8529631478', address = 'PNB Colony', deduction = 3000, taxable_pay = 297000, income_tax = 10000, net_pay = 287000 where id = 3
+Update employee_payroll
+set phone_number = '9586942335', address = 'Shanti Nagar', deduction = 2000, taxable_pay = 198000, income_tax = 8000, net_pay = 190000 where name = 'Terissa';
