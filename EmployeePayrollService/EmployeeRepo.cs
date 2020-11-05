@@ -45,9 +45,9 @@ namespace EmployeePayrollService
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                System.Console.WriteLine(e.Message);
+                System.Console.WriteLine(exception.Message);
             }
         }
         public bool AddEmployee(EmployeeModel model)
@@ -80,9 +80,38 @@ namespace EmployeePayrollService
                     return false;
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(exception.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return false;
+        }
+        public bool UpdateSalary(string name, decimal salary)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    string query = @"Update employee_payroll set basic_pay = '" + salary + "' where name = '" + name + "'";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine(exception.Message);
             }
             finally
             {
