@@ -109,7 +109,7 @@ namespace EmployeePayrollService
                     return false;
                 }
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 Console.WriteLine(exception.Message);
             }
@@ -118,6 +118,46 @@ namespace EmployeePayrollService
                 connection.Close();
             }
             return false;
+        }
+        public EmployeeModel RetrieveDataByName(string name)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            EmployeeModel employeeModel = new EmployeeModel();
+            try
+            {
+                using (connection)
+                {
+                    string query = @"Select * from employee_payroll where name = '" + name + "';";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        dr.Read();
+                        employeeModel.EmployeeID = dr.GetInt32(0);
+                        employeeModel.EmployeeName = !dr.IsDBNull(1) ? dr.GetString(1) : "NA";
+                        employeeModel.BasicPay = !dr.IsDBNull(2) ? dr.GetDecimal(2) : 0;
+                        employeeModel.StartDate = !dr.IsDBNull(3) ? dr.GetDateTime(3) : Convert.ToDateTime("01/01/0001");
+                        employeeModel.Gender = !dr.IsDBNull(4) ? Convert.ToChar(dr.GetString(4)) : 'N';
+                        employeeModel.PhoneNumber = !dr.IsDBNull(5) ? dr.GetString(5) : "NA";
+                        employeeModel.Address = !dr.IsDBNull(6) ? dr.GetString(6) : "NA";
+                        employeeModel.Department = !dr.IsDBNull(7) ? dr.GetString(7) : "NA";
+                        employeeModel.Deductions = !dr.IsDBNull(8) ? dr.GetDecimal(8) : 0;
+                        employeeModel.TaxablePay = !dr.IsDBNull(9) ? dr.GetDecimal(9) : 0;
+                        employeeModel.Tax = !dr.IsDBNull(10) ? dr.GetDecimal(10) : 0;
+                        employeeModel.NetPay = !dr.IsDBNull(11) ? dr.GetDecimal(11) : 0;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                System.Console.WriteLine(exception.Message);
+            }
+            return employeeModel;
         }
     }
 }

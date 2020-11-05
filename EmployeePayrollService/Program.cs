@@ -10,7 +10,7 @@ namespace EmployeePayrollService
             int loop = 1;
             while (loop == 1)
             {
-                Console.WriteLine("Choose \n1. View all records \n2. Add record \n3. Update salary \n4. Exit");
+                Console.WriteLine("Choose \n1. View all records \n2. Add record \n3. Update salary \n4. Retrieve information from name \n5. Exit");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -44,6 +44,12 @@ namespace EmployeePayrollService
                         repo.UpdateSalary(name, salary);
                         break;
                     case 4:
+                        string employeeName = Console.ReadLine();
+                        EmployeeModel employeeInfo = repo.RetrieveDataByName(employeeName);
+                        System.Console.WriteLine(employeeInfo.EmployeeName + " " + employeeInfo.BasicPay + " " + employeeInfo.StartDate + " " + employeeInfo.Gender + " " + employeeInfo.PhoneNumber + " " + employeeInfo.Address + " " + employeeInfo.Department + " " + employeeInfo.Deductions + " " + employeeInfo.TaxablePay + " " + employeeInfo.Tax + " " + employeeInfo.NetPay);
+                        System.Console.WriteLine("\n");
+                        break;
+                    case 5:
                         loop = 0;
                         break;
                 }
