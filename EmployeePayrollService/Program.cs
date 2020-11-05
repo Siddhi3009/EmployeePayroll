@@ -10,7 +10,7 @@ namespace EmployeePayrollService
             int loop = 1;
             while (loop == 1)
             {
-                Console.WriteLine("Choose \n1. View all records \n2. Add record \n3. Update salary \n4. Retrieve information from name \n5. Retrieve Employees with joining date in a range \n6. Exit");
+                Console.WriteLine("Choose \n1. View all records \n2. Add record \n3. Update salary \n4. Retrieve information from name \n5. Retrieve Employees with joining date in a range \n6. Sum of basic pay gender wise \n7. Average of basic pay gender wise \n8. Minimum basic pay gender wise \n9. Maximum basic pay gender wise \n10. Count of employees gender wise \n11. Exit");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -60,6 +60,21 @@ namespace EmployeePayrollService
                         repo.RetrieveEmployeesWithParticularDateRange(startDate, endDate);
                         break;
                     case 6:
+                        repo.SumOfSalaryGenderWise();
+                        break;
+                    case 7:
+                        repo.AverageOfSalaryGenderWise();
+                        break;
+                    case 8:
+                        repo.MinimumSalaryGenderWise();
+                        break;
+                    case 9:
+                        repo.MaximumSalaryGenderWise();
+                        break;
+                    case 10:
+                        repo.CountOfEmployeesGenderWise();
+                        break;
+                    case 11:
                         loop = 0;
                         break;
                 }
