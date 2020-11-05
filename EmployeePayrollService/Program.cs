@@ -10,7 +10,7 @@ namespace EmployeePayrollService
             int loop = 1;
             while (loop == 1)
             {
-                Console.WriteLine("Choose \n1. View all records \n2. Add record \n3. Update salary \n4. Retrieve information from name \n5. Exit");
+                Console.WriteLine("Choose \n1. View all records \n2. Add record \n3. Update salary \n4. Retrieve information from name \n5. Retrieve Employees with joining date in a range \n6. Exit");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -39,17 +39,27 @@ namespace EmployeePayrollService
                             Console.WriteLine("Records added successfully");
                         break;
                     case 3:
-                        string name = Console.ReadLine();
+                        Console.WriteLine("Enter Name");
+                        string name = Console.ReadLine(); 
+                        Console.WriteLine("Enter Basic Pay");
                         decimal salary = Convert.ToDecimal(Console.ReadLine());
                         repo.UpdateSalary(name, salary);
                         break;
                     case 4:
+                        Console.WriteLine("Enter Name");
                         string employeeName = Console.ReadLine();
                         EmployeeModel employeeInfo = repo.RetrieveDataByName(employeeName);
                         System.Console.WriteLine(employeeInfo.EmployeeName + " " + employeeInfo.BasicPay + " " + employeeInfo.StartDate + " " + employeeInfo.Gender + " " + employeeInfo.PhoneNumber + " " + employeeInfo.Address + " " + employeeInfo.Department + " " + employeeInfo.Deductions + " " + employeeInfo.TaxablePay + " " + employeeInfo.Tax + " " + employeeInfo.NetPay);
                         System.Console.WriteLine("\n");
                         break;
                     case 5:
+                        Console.WriteLine("Enter Start date");
+                        DateTime startDate = Convert.ToDateTime(Console.ReadLine());
+                        Console.WriteLine("Enter End date");
+                        DateTime endDate = Convert.ToDateTime(Console.ReadLine());
+                        repo.RetrieveEmployeesWithParticularDateRange(startDate, endDate);
+                        break;
+                    case 6:
                         loop = 0;
                         break;
                 }
