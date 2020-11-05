@@ -7,17 +7,17 @@ namespace EmployeePayrollService
     class EmployeeRepo
     {
         public static string connectionString = @"Data Source=DESKTOP-6S6I6GO\SQLEXPRESS;Initial Catalog=Payroll_Service;Integrated Security=True";
-        SqlConnection connection = new SqlConnection(connectionString);
         public void GetAllEmployee()
         {
+            SqlConnection connection = new SqlConnection(connectionString);
             try
             {
                 EmployeeModel employeeModel = new EmployeeModel();
-                using (this.connection)
+                using (connection)
                 {
                     string query = @"Select * from employee_payroll;";
-                    SqlCommand cmd = new SqlCommand(query, this.connection);
-                    this.connection.Open();
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     if (dr.HasRows)
                     {
@@ -52,11 +52,12 @@ namespace EmployeePayrollService
         }
         public bool AddEmployee(EmployeeModel model)
         {
+            SqlConnection connection = new SqlConnection(connectionString);
             try
             {
-                using (this.connection)
+                using (connection)
                 {
-                    SqlCommand command = new SqlCommand("SpAddEmployeeDetails", this.connection);
+                    SqlCommand command = new SqlCommand("SpAddEmployeeDetails", connection);
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@EmployeeName", model.EmployeeName);
                     command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
@@ -69,9 +70,9 @@ namespace EmployeePayrollService
                     command.Parameters.AddWithValue("@Tax", model.Tax);
                     command.Parameters.AddWithValue("@NetPay", model.NetPay);
                     command.Parameters.AddWithValue("@StartDate", DateTime.Now);
-                    this.connection.Open();
+                    connection.Open();
                     var result = command.ExecuteNonQuery();
-                    this.connection.Close();
+                    connection.Close();
                     if (result != 0)
                     {
                         return true;
@@ -85,7 +86,7 @@ namespace EmployeePayrollService
             }
             finally
             {
-                this.connection.Close();
+                connection.Close();
             }
             return false;
         }

@@ -16,10 +16,9 @@ namespace EmployeePayrollService
             employee.BasicPay = 10000.00M;
             employee.Deductions = 1500;
             employee.StartDate = employee.StartDate = Convert.ToDateTime("2020-11-03");
-
             if (repo.AddEmployee(employee))
                 Console.WriteLine("Records added successfully");
-            //repo.GetAllEmployee();
+            repo.GetAllEmployee();
         }
     }
 }
