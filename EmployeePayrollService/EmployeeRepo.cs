@@ -406,7 +406,7 @@ namespace EmployeePayrollService
             {
                 Console.WriteLine(exception.Message);
             }
-            finally 
+            finally
             {
                 connection.Close();
             }
