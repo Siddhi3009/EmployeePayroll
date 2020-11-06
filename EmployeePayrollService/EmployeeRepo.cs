@@ -372,5 +372,34 @@ namespace EmployeePayrollService
                 Console.WriteLine(exception.Message);
             }
         }
+        public void AddEmployeeToDtabase(string employeeName, char gender, string phoneNumber, string address, string startDate, double basicPay)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    string addEmployeeQuery = @"insert into employee values ('" +
+                                               employeeName + "','" + gender + "','" +
+                                               phoneNumber + "','" + address + "');";
+                    SqlCommand addEmployeeCommand = new SqlCommand(addEmployeeQuery, connection);
+                    connection.Open();
+                    var result = addEmployeeCommand.ExecuteNonQuery();
+                    if (result == 1)
+                    {
+                        Console.WriteLine("Employee added successfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Employee insertion failed");
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
     }
 }
