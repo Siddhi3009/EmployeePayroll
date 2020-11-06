@@ -181,5 +181,3 @@ insert into employee_payroll values
 @EmployeeName,@BasicPay,@StartDate,@Gender,@PhoneNumber,@Address,@Department,@Deductions,@TaxablePay,@Tax,@NetPay
 )
 end
-select * from employee_payroll
-delete from employee_payroll where name = 'Mark'
