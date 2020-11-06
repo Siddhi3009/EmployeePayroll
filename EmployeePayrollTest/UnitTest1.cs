@@ -14,7 +14,7 @@ namespace EmployeePayrollTest
         public void EmployeeDatabase_WhenViewed_ShouldReturnListOfEmployees()
         {
             List<EmployeeModel> employees = repo.GetAllEmployee();
-            Assert.AreEqual(employees.Count(), 13);
+            Assert.AreEqual(employees.Count(), 8);
         }
         [TestMethod]
         public void GivenNameAndUpdatedSalary_WhenUpdated_ShouldSyncWithDatabase()
@@ -42,7 +42,7 @@ namespace EmployeePayrollTest
             };
             bool result = repo.AddEmployee(employee);
             List<EmployeeModel> employeeAdded = repo.RetrieveDataByName("Mark");
-            Assert.AreEqual(employeeAdded.Count(), 5);
+            Assert.AreEqual(employeeAdded.Count(), 1);
         }
         [TestMethod]
         public void GivenDateRange_ShouldReturnListOfEmployeesWithStartingDateWithinRange()
