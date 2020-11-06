@@ -87,12 +87,12 @@ create table EmployeeDepartment
 (
 DepartmentId int not null primary key,
 Department varchar (20) not null,
-EmployeeId int not null foreign key references Employee(Id)
+EmployeeId int not null foreign key references Employee(Id) on delete cascade
 );
 
 create table Payroll
 (
-Id int not null foreign key references Employee(Id),
+Id int not null foreign key references Employee(Id) on delete cascade,
 Start date not null,
 Basic_pay money not null,
 Deduction money,
@@ -109,15 +109,15 @@ insert into employee values
 ('Charlie', 'M', '9926707344', 'Panchsheel Nagar');
 
 insert into EmployeeDepartment values
-(101, 'Sales',1),
-(102, 'Sales',2),
-(103, 'HR', 3),
-(104,'Marketting',2);
+(101, 'Sales',26),
+(102, 'Sales',27),
+(103, 'HR', 28),
+(104,'Marketting',27);
 
 insert into Payroll values
-(1,'2018-01-03', 100000, 10000, 90000, 1000, 89000),
-(2, '2019-11-13', 200000, 10000, 190000,3000,187000),
-(3, '2020-05-21', 300000, 20000, 280000, 5000, 275000);
+(26,'2018-01-03', 100000, 10000, 90000, 1000, 89000),
+(27, '2019-11-13', 200000, 10000, 190000,3000,187000),
+(28, '2020-05-21', 300000, 20000, 280000, 5000, 275000);
 
 --Retrieve all data
 select * from ((employee emp inner join Payroll payroll on (emp.Id = payroll.Id)) 

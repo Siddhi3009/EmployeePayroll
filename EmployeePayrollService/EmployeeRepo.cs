@@ -50,7 +50,7 @@ namespace EmployeePayrollService
             {
                 System.Console.WriteLine(exception.Message);
             }
-            finally 
+            finally
             {
                 connection.Close();
             }
@@ -167,7 +167,7 @@ namespace EmployeePayrollService
             {
                 System.Console.WriteLine(exception.Message);
             }
-            finally 
+            finally
             {
                 connection.Close();
             }
@@ -372,33 +372,43 @@ namespace EmployeePayrollService
                 Console.WriteLine(exception.Message);
             }
         }
-        public void AddEmployeeToDtabase(string employeeName, char gender, string phoneNumber, string address, string startDate, double basicPay)
+        public void AddEmployeeToDtabase(string employeeName, char gender, string phoneNumber, string address, DateTime startDate, double basicPay)
         {
             SqlConnection connection = new SqlConnection(connectionString);
+            int employeeId = -1;
             try
             {
                 using (connection)
                 {
                     string addEmployeeQuery = @"insert into employee values ('" +
                                                employeeName + "','" + gender + "','" +
-                                               phoneNumber + "','" + address + "');";
+                                               phoneNumber + "','" + address + "'); " +
+                                               "Select @@identity";
                     SqlCommand addEmployeeCommand = new SqlCommand(addEmployeeQuery, connection);
                     connection.Open();
-                    var result = addEmployeeCommand.ExecuteNonQuery();
-                    if (result == 1)
-                    {
-                        Console.WriteLine("Employee added successfully");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Employee insertion failed");
-                    }
-                    connection.Close();
+                    employeeId = Convert.ToInt32(addEmployeeCommand.ExecuteScalar());
+                    double deduction = 0.2 * basicPay;
+                    double taxablePay = basicPay - deduction;
+                    double incomeTax = taxablePay * 0.1;
+                    double netPay = taxablePay - incomeTax;
+                    string addPayrollQuery = @"insert into payroll values ('" +
+                                               employeeId + "','" + startDate.ToString("yyyy-MM-dd") + "','" +
+                                               Convert.ToDecimal(basicPay) + "','" + Convert.ToDecimal(deduction) + "','" +
+                                               Convert.ToDecimal(taxablePay) + "','" +
+                                               Convert.ToDecimal(incomeTax) + "','" + Convert.ToDecimal(netPay) + "');";
+                    SqlCommand addPayrollCommand = new SqlCommand(addPayrollQuery, connection);
+                    var payrollAdded = addPayrollCommand.ExecuteNonQuery();
+                    if (payrollAdded == 1)
+                        Console.WriteLine("Record added successfully");
                 }
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception.Message);
+            }
+            finally 
+            {
+                connection.Close();
             }
         }
     }
