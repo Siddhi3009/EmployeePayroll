@@ -19,7 +19,7 @@ namespace EmployeePayrollService
             {
                 using (connection)
                 {
-                    string query = @"select * from (employee e inner join Payroll p on e.Id = p.Id) inner join EmployeeDepartment ed on e.Id = ed.EmployeeId";
+                    string query = @"select * from (employee e inner join Payroll p on e.Id = p.Id) inner join EmployeeDepartment ed on e.Id = ed.EmployeeId where e.is_active = 1";
                     SqlCommand cmd = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
@@ -30,16 +30,16 @@ namespace EmployeePayrollService
                             EmployeeModel employeeModel = new EmployeeModel();
                             employeeModel.EmployeeID = dr.GetInt32(0);
                             employeeModel.EmployeeName = !dr.IsDBNull(1) ? dr.GetString(1) : "NA";
-                            employeeModel.BasicPay = !dr.IsDBNull(7) ? dr.GetDecimal(7) : 0;
-                            employeeModel.StartDate = !dr.IsDBNull(6) ? dr.GetDateTime(6) : Convert.ToDateTime("01/01/0001");
+                            employeeModel.BasicPay = !dr.IsDBNull(8) ? dr.GetDecimal(8) : 0;
+                            employeeModel.StartDate = !dr.IsDBNull(7) ? dr.GetDateTime(7) : Convert.ToDateTime("01/01/0001");
                             employeeModel.Gender = !dr.IsDBNull(2) ? Convert.ToChar(dr.GetString(2)) : 'N';
                             employeeModel.PhoneNumber = !dr.IsDBNull(3) ? dr.GetString(3) : "NA";
                             employeeModel.Address = !dr.IsDBNull(4) ? dr.GetString(4) : "NA";
-                            employeeModel.Department = !dr.IsDBNull(13) ? dr.GetString(13) : "NA";
-                            employeeModel.Deductions = !dr.IsDBNull(8) ? dr.GetDecimal(8) : 0;
-                            employeeModel.TaxablePay = !dr.IsDBNull(9) ? dr.GetDecimal(9) : 0;
-                            employeeModel.Tax = !dr.IsDBNull(10) ? dr.GetDecimal(10) : 0;
-                            employeeModel.NetPay = !dr.IsDBNull(11) ? dr.GetDecimal(11) : 0;
+                            employeeModel.Department = !dr.IsDBNull(14) ? dr.GetString(14) : "NA";
+                            employeeModel.Deductions = !dr.IsDBNull(9) ? dr.GetDecimal(9) : 0;
+                            employeeModel.TaxablePay = !dr.IsDBNull(10) ? dr.GetDecimal(10) : 0;
+                            employeeModel.Tax = !dr.IsDBNull(11) ? dr.GetDecimal(11) : 0;
+                            employeeModel.NetPay = !dr.IsDBNull(12) ? dr.GetDecimal(12) : 0;
                             employeeList.Add(employeeModel);
                         }
                     }
@@ -129,7 +129,7 @@ namespace EmployeePayrollService
                                    "Update Payroll Set Deduction = " + Convert.ToDecimal(deduction) +
                                    ", Taxable_pay = " + Convert.ToDecimal(taxablePay) +
                                    ", Income_tax = " + Convert.ToDecimal(incomeTax) +
-                                   ", Net_pay = " + Convert.ToDecimal(netPay);
+                                   ", Net_pay = " + Convert.ToDecimal(netPay) + "where basic_pay = " + salary ;
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     var result = command.ExecuteNonQuery();
@@ -165,7 +165,7 @@ namespace EmployeePayrollService
                 using (connection)
                 {
                     string query = @"select * from (employee e inner join Payroll p on e.Id = p.Id)" + 
-                        "inner join EmployeeDepartment ed on e.Id = ed.EmployeeId where e.Name = '" + name + "'";
+                        "inner join EmployeeDepartment ed on e.Id = ed.EmployeeId where e.Name = '" + name + "' and e.is_active = 1";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -176,16 +176,16 @@ namespace EmployeePayrollService
                             EmployeeModel employeeModel = new EmployeeModel();
                             employeeModel.EmployeeID = dr.GetInt32(0);
                             employeeModel.EmployeeName = !dr.IsDBNull(1) ? dr.GetString(1) : "NA";
-                            employeeModel.BasicPay = !dr.IsDBNull(7) ? dr.GetDecimal(7) : 0;
-                            employeeModel.StartDate = !dr.IsDBNull(6) ? dr.GetDateTime(6) : Convert.ToDateTime("01/01/0001");
+                            employeeModel.BasicPay = !dr.IsDBNull(8) ? dr.GetDecimal(8) : 0;
+                            employeeModel.StartDate = !dr.IsDBNull(7) ? dr.GetDateTime(7) : Convert.ToDateTime("01/01/0001");
                             employeeModel.Gender = !dr.IsDBNull(2) ? Convert.ToChar(dr.GetString(2)) : 'N';
                             employeeModel.PhoneNumber = !dr.IsDBNull(3) ? dr.GetString(3) : "NA";
                             employeeModel.Address = !dr.IsDBNull(4) ? dr.GetString(4) : "NA";
-                            employeeModel.Department = !dr.IsDBNull(13) ? dr.GetString(13) : "NA";
-                            employeeModel.Deductions = !dr.IsDBNull(8) ? dr.GetDecimal(8) : 0;
-                            employeeModel.TaxablePay = !dr.IsDBNull(9) ? dr.GetDecimal(9) : 0;
-                            employeeModel.Tax = !dr.IsDBNull(10) ? dr.GetDecimal(10) : 0;
-                            employeeModel.NetPay = !dr.IsDBNull(11) ? dr.GetDecimal(11) : 0;
+                            employeeModel.Department = !dr.IsDBNull(14) ? dr.GetString(14) : "NA";
+                            employeeModel.Deductions = !dr.IsDBNull(9) ? dr.GetDecimal(9) : 0;
+                            employeeModel.TaxablePay = !dr.IsDBNull(10) ? dr.GetDecimal(10) : 0;
+                            employeeModel.Tax = !dr.IsDBNull(11) ? dr.GetDecimal(11) : 0;
+                            employeeModel.NetPay = !dr.IsDBNull(12) ? dr.GetDecimal(12) : 0;
                             employeeList.Add(employeeModel);
                         }
                     }
@@ -220,7 +220,7 @@ namespace EmployeePayrollService
                 using (connection)
                 {
                     string query = @"select * from (employee e inner join Payroll p on e.Id = p.Id)" +
-                        "inner join EmployeeDepartment ed on e.Id = ed.EmployeeId where p.Start between '" + startDate + "'and '" + endDate + "';";
+                        "inner join EmployeeDepartment ed on e.Id = ed.EmployeeId where p.Start between '" + startDate + "'and '" + endDate + "' and e.is_active = 1";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -231,16 +231,16 @@ namespace EmployeePayrollService
                             EmployeeModel employeeModel = new EmployeeModel();
                             employeeModel.EmployeeID = dr.GetInt32(0);
                             employeeModel.EmployeeName = !dr.IsDBNull(1) ? dr.GetString(1) : "NA";
-                            employeeModel.BasicPay = !dr.IsDBNull(7) ? dr.GetDecimal(7) : 0;
-                            employeeModel.StartDate = !dr.IsDBNull(6) ? dr.GetDateTime(6) : Convert.ToDateTime("01/01/0001");
+                            employeeModel.BasicPay = !dr.IsDBNull(8) ? dr.GetDecimal(8) : 0;
+                            employeeModel.StartDate = !dr.IsDBNull(7) ? dr.GetDateTime(7) : Convert.ToDateTime("01/01/0001");
                             employeeModel.Gender = !dr.IsDBNull(2) ? Convert.ToChar(dr.GetString(2)) : 'N';
                             employeeModel.PhoneNumber = !dr.IsDBNull(3) ? dr.GetString(3) : "NA";
                             employeeModel.Address = !dr.IsDBNull(4) ? dr.GetString(4) : "NA";
-                            employeeModel.Department = !dr.IsDBNull(13) ? dr.GetString(13) : "NA";
-                            employeeModel.Deductions = !dr.IsDBNull(8) ? dr.GetDecimal(8) : 0;
-                            employeeModel.TaxablePay = !dr.IsDBNull(9) ? dr.GetDecimal(9) : 0;
-                            employeeModel.Tax = !dr.IsDBNull(10) ? dr.GetDecimal(10) : 0;
-                            employeeModel.NetPay = !dr.IsDBNull(11) ? dr.GetDecimal(11) : 0;
+                            employeeModel.Department = !dr.IsDBNull(14) ? dr.GetString(14) : "NA";
+                            employeeModel.Deductions = !dr.IsDBNull(9) ? dr.GetDecimal(9) : 0;
+                            employeeModel.TaxablePay = !dr.IsDBNull(10) ? dr.GetDecimal(10) : 0;
+                            employeeModel.Tax = !dr.IsDBNull(11) ? dr.GetDecimal(11) : 0;
+                            employeeModel.NetPay = !dr.IsDBNull(12) ? dr.GetDecimal(12) : 0;
                             employeeList.Add(employeeModel);
                         }
                     }
@@ -266,8 +266,8 @@ namespace EmployeePayrollService
             {
                 using (connection)
                 {
-                    string query = @"select e.gender, SUM(p.basic_pay) from employee e inner join Payroll p" + 
-                        " on e.Id = p.Id group by gender";
+                    string query = @"select e.gender, SUM(p.basic_pay) from employee e inner join Payroll p" +
+                        " on e.Id = p.Id where e.is_active = 1 group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -302,7 +302,7 @@ namespace EmployeePayrollService
                 using (connection)
                 {
                     string query = @"select e.gender, AVG(p.basic_pay) from employee e inner join Payroll p" +
-                        " on e.Id = p.Id group by gender";
+                        " on e.Id = p.Id where e.is_active = 1 group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -337,7 +337,7 @@ namespace EmployeePayrollService
                 using (connection)
                 {
                     string query = @"select e.gender, MIN(p.basic_pay) from employee e inner join Payroll p" +
-                        " on e.Id = p.Id group by gender";
+                        " on e.Id = p.Id where e.is_active = 1 group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -372,7 +372,7 @@ namespace EmployeePayrollService
                 using (connection)
                 {
                     string query = @"select e.gender, MAX(p.basic_pay) from employee e inner join Payroll p" +
-                        " on e.Id = p.Id group by gender";
+                        " on e.Id = p.Id where e.is_active = 1 group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -407,7 +407,7 @@ namespace EmployeePayrollService
                 using (connection)
                 {
                     string query = @"select e.gender, COUNT(e.gender) from employee e inner join Payroll p" +
-                        " on e.Id = p.Id group by gender";
+                        " on e.Id = p.Id where e.is_active = 1 group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -454,7 +454,7 @@ namespace EmployeePayrollService
                     connection.Open();
                     string addEmployeeQuery = @"insert into employee values ('" +
                                                employeeName + "','" + gender + "','" +
-                                               phoneNumber + "','" + address + "'); " +
+                                               phoneNumber + "','" + address + "', 1); " +
                                                "Select @@identity";
                     transaction = connection.BeginTransaction();
                     SqlCommand addEmployeeCommand = new SqlCommand(addEmployeeQuery, connection, transaction);
@@ -508,6 +508,39 @@ namespace EmployeePayrollService
             {
                 connection.Close();
             }
+        }
+        /// <summary>
+        /// Makes employee inactive
+        /// </summary>
+        /// <param name="empId"></param>
+        /// <returns>true if change is successful else false</returns>
+        public bool RemoveEmployee(int empId)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    string query = @"Update employee set is_active = 0 where Id = " + empId;
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return false;
         }
     }
 }

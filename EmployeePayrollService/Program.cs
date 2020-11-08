@@ -12,7 +12,7 @@ namespace EmployeePayrollService
             int loop = 1;
             while (loop == 1)
             {
-                Console.WriteLine("Choose \n1. View all records \n2. Add record \n3. Update salary \n4. Retrieve information from name \n5. Retrieve Employees with joining date in a range \n6. Sum of basic pay gender wise \n7. Average of basic pay gender wise \n8. Minimum basic pay gender wise \n9. Maximum basic pay gender wise \n10. Count of employees gender wise \n11. Exit");
+                Console.WriteLine("Choose \n1. View all records \n2. Add record \n3. Update salary \n4. Retrieve information from name \n5. Retrieve Employees with joining date in a range \n6. Sum of basic pay gender wise \n7. Average of basic pay gender wise \n8. Minimum basic pay gender wise \n9. Maximum basic pay gender wise \n10. Count of employees gender wise \n11. Remove emloyee from active employees \n12. Exit");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -89,6 +89,13 @@ namespace EmployeePayrollService
                         repo.CountOfEmployeesGenderWise();
                         break;
                     case 11:
+                        Console.WriteLine("Enter employee Id of employee to be removed");
+                        int empId = Convert.ToInt32(Console.ReadLine());
+                        bool employeeRemoved = repo.RemoveEmployee(empId);
+                        if (employeeRemoved)
+                            Console.WriteLine("Employee Removed successfully");
+                        break;
+                    case 12:
                         loop = 0;
                         break;
                 }
