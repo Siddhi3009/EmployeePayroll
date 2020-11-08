@@ -181,3 +181,6 @@ insert into employee_payroll values
 @EmployeeName,@BasicPay,@StartDate,@Gender,@PhoneNumber,@Address,@Department,@Deductions,@TaxablePay,@Tax,@NetPay
 )
 end
+--View Newly Added Records
+select * from employee
+select * from Payroll

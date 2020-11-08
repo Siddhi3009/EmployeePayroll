@@ -25,25 +25,19 @@ namespace EmployeePayrollService
                         }
                         break;
                     case 2:
-                        EmployeeModel employee = new EmployeeModel();
                         Console.WriteLine("Enter Name");
-                        employee.EmployeeName = Console.ReadLine();
-                        Console.WriteLine("Enter Department");
-                        employee.Department = Console.ReadLine();
+                        string EmployeeName = Console.ReadLine();
                         Console.WriteLine("Enter Phone Number");
-                        employee.PhoneNumber = Console.ReadLine();
+                        string PhoneNumber = Console.ReadLine();
                         Console.WriteLine("Enter Address");
-                        employee.Address = Console.ReadLine();
+                        string Address = Console.ReadLine();
                         Console.WriteLine("Enter Gender");
-                        employee.Gender = Convert.ToChar(Console.ReadLine());
+                        char Gender = Convert.ToChar(Console.ReadLine());
                         Console.WriteLine("Enter Basic Pay");
-                        employee.BasicPay = Convert.ToDecimal(Console.ReadLine());
-                        Console.WriteLine("Enter Deductions");
-                        employee.Deductions = Convert.ToDecimal(Console.ReadLine());
+                        double BasicPay = Convert.ToDouble(Console.ReadLine());
                         Console.WriteLine("Enter Start date");
-                        employee.StartDate = Convert.ToDateTime(Console.ReadLine());
-                        if (repo.AddEmployee(employee))
-                            Console.WriteLine("Records added successfully");
+                        DateTime StartDate = Convert.ToDateTime(Console.ReadLine());
+                        repo.AddEmployeeToDtabase(EmployeeName, Gender, PhoneNumber, Address, StartDate, BasicPay);
                         break;
                     case 3:
                         Console.WriteLine("Enter Name");
