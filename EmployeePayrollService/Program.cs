@@ -37,7 +37,11 @@ namespace EmployeePayrollService
                         double BasicPay = Convert.ToDouble(Console.ReadLine());
                         Console.WriteLine("Enter Start date");
                         DateTime StartDate = Convert.ToDateTime(Console.ReadLine());
-                        repo.AddEmployeeToDtabase(EmployeeName, Gender, PhoneNumber, Address, StartDate, BasicPay);
+                        Console.WriteLine("Enter Department");
+                        string Department = Console.ReadLine();
+                        Console.WriteLine("Enter department id");
+                        int DepartmentId = Convert.ToInt32(Console.ReadLine());
+                        repo.AddEmployeeToDtabase(EmployeeName, Gender, PhoneNumber, Address, StartDate, BasicPay, DepartmentId, Department);
                         break;
                     case 3:
                         Console.WriteLine("Enter Name");

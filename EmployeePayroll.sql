@@ -184,3 +184,4 @@ end
 --View Newly Added Records
 select * from employee
 select * from Payroll
+select * from EmployeeDepartment

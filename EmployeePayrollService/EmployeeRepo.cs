@@ -372,21 +372,31 @@ namespace EmployeePayrollService
                 Console.WriteLine(exception.Message);
             }
         }
-        public void AddEmployeeToDtabase(string employeeName, char gender, string phoneNumber, string address, DateTime startDate, double basicPay)
+        public void AddEmployeeToDtabase(string employeeName, char gender, string phoneNumber, string address, DateTime startDate, double basicPay, int departmentId, string department)
         {
             SqlConnection connection = new SqlConnection(connectionString);
+            SqlTransaction transaction = null;
             int employeeId = -1;
             try
             {
                 using (connection)
                 {
+                    connection.Open();
                     string addEmployeeQuery = @"insert into employee values ('" +
                                                employeeName + "','" + gender + "','" +
                                                phoneNumber + "','" + address + "'); " +
                                                "Select @@identity";
-                    SqlCommand addEmployeeCommand = new SqlCommand(addEmployeeQuery, connection);
-                    connection.Open();
-                    employeeId = Convert.ToInt32(addEmployeeCommand.ExecuteScalar());
+                    transaction = connection.BeginTransaction();
+                    SqlCommand addEmployeeCommand = new SqlCommand(addEmployeeQuery, connection, transaction);
+                    try
+                    {
+                        employeeId = Convert.ToInt32(addEmployeeCommand.ExecuteScalar());
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        transaction.Rollback();
+                    }
                     double deduction = 0.2 * basicPay;
                     double taxablePay = basicPay - deduction;
                     double incomeTax = taxablePay * 0.1;
@@ -396,10 +406,28 @@ namespace EmployeePayrollService
                                                Convert.ToDecimal(basicPay) + "','" + Convert.ToDecimal(deduction) + "','" +
                                                Convert.ToDecimal(taxablePay) + "','" +
                                                Convert.ToDecimal(incomeTax) + "','" + Convert.ToDecimal(netPay) + "');";
-                    SqlCommand addPayrollCommand = new SqlCommand(addPayrollQuery, connection);
-                    var payrollAdded = addPayrollCommand.ExecuteNonQuery();
-                    if (payrollAdded == 1)
-                        Console.WriteLine("Record added successfully");
+                    SqlCommand addPayrollCommand = new SqlCommand(addPayrollQuery, connection, transaction);
+                    try
+                    {
+                        var payrollAdded = addPayrollCommand.ExecuteNonQuery();
+                    }
+                    catch(Exception)
+                    {
+                        transaction.Rollback();
+                    }
+                    string addDepartmentQuery = @"insert into EmployeeDepartment values ('" +
+                                               departmentId + "','" + department + "','" +
+                                               employeeId + "'); ";
+                    SqlCommand addDepartmentCommand = new SqlCommand(addDepartmentQuery, connection, transaction);
+                    try
+                    {
+                        var departmentAdded = addDepartmentCommand.ExecuteNonQuery();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                    }
+                    transaction.Commit();
                 }
             }
             catch (Exception exception)
