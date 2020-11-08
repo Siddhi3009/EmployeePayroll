@@ -7,6 +7,10 @@ namespace EmployeePayrollService
     public class EmployeeRepo
     {
         public static string connectionString = @"Data Source=DESKTOP-6S6I6GO\SQLEXPRESS;Initial Catalog=Payroll_Service;Integrated Security=True";
+        /// <summary>
+        /// Gets list of all employees in the database
+        /// </summary>
+        /// <returns>list of employees</returns>
         public List<EmployeeModel> GetAllEmployee()
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -56,6 +60,11 @@ namespace EmployeePayrollService
             }
             return employeeList;
         }
+        /// <summary>
+        /// Adds a new employee to employee payroll table
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>bool true if employee added successfully else false</returns>
         public bool AddEmployee(EmployeeModel model)
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -96,6 +105,12 @@ namespace EmployeePayrollService
             }
             return false;
         }
+        /// <summary>
+        /// Updates salary of employee with name in database
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="salary"></param>
+        /// <returns>bool true, if salary is updated else false</returns>
         public bool UpdateSalary(string name, double salary)
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -136,6 +151,11 @@ namespace EmployeePayrollService
             }
             return false;
         }
+        /// <summary>
+        /// Retrieves information of employee by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>list of employees</returns>
         public List<EmployeeModel> RetrieveDataByName(string name)
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -185,6 +205,12 @@ namespace EmployeePayrollService
             }
             return employeeList;
         }
+        /// <summary>
+        /// Retrieves information of employees who joined in a particular date range
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns>list of employees</returns>
         public List<EmployeeModel> RetrieveEmployeesWithParticularDateRange(string startDate, string endDate)
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -230,6 +256,9 @@ namespace EmployeePayrollService
             }
             return employeeList;
         }
+        /// <summary>
+        /// Sum of salary of employees according to gender is displayed
+        /// </summary>
         public void SumOfSalaryGenderWise()
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -262,6 +291,9 @@ namespace EmployeePayrollService
                 Console.WriteLine(exception.Message);
             }
         }
+        /// <summary>
+        /// Average of salary of employees according to gender is displayed
+        /// </summary>
         public void AverageOfSalaryGenderWise()
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -294,6 +326,9 @@ namespace EmployeePayrollService
                 Console.WriteLine(exception.Message);
             }
         }
+        /// <summary>
+        /// Minimum salary of employees according to gender is displayed
+        /// </summary>
         public void MinimumSalaryGenderWise()
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -326,6 +361,9 @@ namespace EmployeePayrollService
                 Console.WriteLine(exception.Message);
             }
         }
+        /// <summary>
+        /// Maximum salary of employees according to gender is displayed
+        /// </summary>
         public void MaximumSalaryGenderWise()
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -358,6 +396,9 @@ namespace EmployeePayrollService
                 Console.WriteLine(exception.Message);
             }
         }
+        /// <summary>
+        /// Count of employees according to gender
+        /// </summary>
         public void CountOfEmployeesGenderWise()
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -390,6 +431,17 @@ namespace EmployeePayrollService
                 Console.WriteLine(exception.Message);
             }
         }
+        /// <summary>
+        /// Adds employee information to all tables in ER Diagram
+        /// </summary>
+        /// <param name="employeeName"></param>
+        /// <param name="gender"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="address"></param>
+        /// <param name="startDate"></param>
+        /// <param name="basicPay"></param>
+        /// <param name="departmentId"></param>
+        /// <param name="department"></param>
         public void AddEmployeeToDtabase(string employeeName, char gender, string phoneNumber, string address, DateTime startDate, double basicPay, int departmentId, string department)
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -457,6 +509,5 @@ namespace EmployeePayrollService
                 connection.Close();
             }
         }
-
     }
 }
