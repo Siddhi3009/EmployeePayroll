@@ -47,7 +47,7 @@ namespace EmployeePayrollService
                         Console.WriteLine("Enter Name");
                         string name = Console.ReadLine(); 
                         Console.WriteLine("Enter Basic Pay");
-                        decimal salary = Convert.ToDecimal(Console.ReadLine());
+                        double salary = Convert.ToDouble(Console.ReadLine());
                         bool result = repo.UpdateSalary(name, salary);
                         Console.WriteLine(result == true ? "Salary Updated" : "Salary cannot be updated"); 
                         break;
