@@ -442,7 +442,7 @@ namespace EmployeePayrollService
         /// <param name="basicPay"></param>
         /// <param name="departmentId"></param>
         /// <param name="department"></param>
-        public void AddEmployeeToDtabase(string employeeName, char gender, string phoneNumber, string address, DateTime startDate, double basicPay, int departmentId, string department)
+        public void AddEmployeeToDtabase(EmployeeModel employee)
         {
             SqlConnection connection = new SqlConnection(connectionString);
             SqlTransaction transaction = null;
@@ -453,8 +453,8 @@ namespace EmployeePayrollService
                 {
                     connection.Open();
                     string addEmployeeQuery = @"insert into employee values ('" +
-                                               employeeName + "','" + gender + "','" +
-                                               phoneNumber + "','" + address + "', 1); " +
+                                               employee.EmployeeName + "','" + employee.Gender + "','" +
+                                               employee.PhoneNumber + "','" + employee.Address + "', 1); " +
                                                "Select @@identity";
                     transaction = connection.BeginTransaction();
                     SqlCommand addEmployeeCommand = new SqlCommand(addEmployeeQuery, connection, transaction);
@@ -467,13 +467,13 @@ namespace EmployeePayrollService
                         Console.WriteLine(e.Message);
                         transaction.Rollback();
                     }
-                    double deduction = 0.2 * basicPay;
-                    double taxablePay = basicPay - deduction;
+                    double deduction = 0.2 * Convert.ToDouble(employee.BasicPay);
+                    double taxablePay = Convert.ToDouble(employee.BasicPay) - deduction;
                     double incomeTax = taxablePay * 0.1;
                     double netPay = taxablePay - incomeTax;
                     string addPayrollQuery = @"insert into payroll values ('" +
-                                               employeeId + "','" + startDate.ToString("yyyy-MM-dd") + "','" +
-                                               Convert.ToDecimal(basicPay) + "','" + Convert.ToDecimal(deduction) + "','" +
+                                               employeeId + "','" + employee.StartDate.ToString("yyyy-MM-dd") + "','" +
+                                               employee.BasicPay + "','" + Convert.ToDecimal(deduction) + "','" +
                                                Convert.ToDecimal(taxablePay) + "','" +
                                                Convert.ToDecimal(incomeTax) + "','" + Convert.ToDecimal(netPay) + "');";
                     SqlCommand addPayrollCommand = new SqlCommand(addPayrollQuery, connection, transaction);
@@ -486,7 +486,7 @@ namespace EmployeePayrollService
                         transaction.Rollback();
                     }
                     string addDepartmentQuery = @"insert into EmployeeDepartment values ('" +
-                                               departmentId + "','" + department + "','" +
+                                               employee.DepartmentId + "','" + employee.Department + "','" +
                                                employeeId + "'); ";
                     SqlCommand addDepartmentCommand = new SqlCommand(addDepartmentQuery, connection, transaction);
                     try
@@ -541,6 +541,21 @@ namespace EmployeePayrollService
                 connection.Close();
             }
             return false;
+        }
+        /// <summary>
+        /// Add Multiple Employees to database
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public int AddMultipleEmployees(List<EmployeeModel> list)
+        {
+            int noOfEmployeesAdded = 0;
+            foreach(EmployeeModel employee in list)
+            {
+                noOfEmployeesAdded++;
+                AddEmployeeToDtabase(employee);
+            }
+            return noOfEmployeesAdded;
         }
     }
 }

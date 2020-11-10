@@ -25,23 +25,32 @@ namespace EmployeePayrollService
                         }
                         break;
                     case 2:
-                        Console.WriteLine("Enter Name");
-                        string EmployeeName = Console.ReadLine();
-                        Console.WriteLine("Enter Phone Number");
-                        string PhoneNumber = Console.ReadLine();
-                        Console.WriteLine("Enter Address");
-                        string Address = Console.ReadLine();
-                        Console.WriteLine("Enter Gender");
-                        char Gender = Convert.ToChar(Console.ReadLine());
-                        Console.WriteLine("Enter Basic Pay");
-                        double BasicPay = Convert.ToDouble(Console.ReadLine());
-                        Console.WriteLine("Enter Start date");
-                        DateTime StartDate = Convert.ToDateTime(Console.ReadLine());
-                        Console.WriteLine("Enter Department");
-                        string Department = Console.ReadLine();
-                        Console.WriteLine("Enter department id");
-                        int DepartmentId = Convert.ToInt32(Console.ReadLine());
-                        repo.AddEmployeeToDtabase(EmployeeName, Gender, PhoneNumber, Address, StartDate, BasicPay, DepartmentId, Department);
+                        Console.WriteLine("Enter number of employees to be added");
+                        int noOfEmployeesAdded = Convert.ToInt32(Console.ReadLine());
+                        List<EmployeeModel> list = new List<EmployeeModel>();
+                        while (noOfEmployeesAdded >= 1)
+                        {
+                            EmployeeModel employee = new EmployeeModel();
+                            Console.WriteLine("Enter Name");
+                            employee.EmployeeName = Console.ReadLine();
+                            Console.WriteLine("Enter Phone Number");
+                            employee.PhoneNumber = Console.ReadLine();
+                            Console.WriteLine("Enter Address");
+                            employee.Address = Console.ReadLine();
+                            Console.WriteLine("Enter Gender");
+                            employee.Gender = Convert.ToChar(Console.ReadLine());
+                            Console.WriteLine("Enter Basic Pay");
+                            employee.BasicPay = Convert.ToDecimal(Console.ReadLine());
+                            Console.WriteLine("Enter Start date");
+                            employee.StartDate = Convert.ToDateTime(Console.ReadLine());
+                            Console.WriteLine("Enter Department");
+                            employee.Department = Console.ReadLine();
+                            Console.WriteLine("Enter department id");
+                            employee.DepartmentId = Convert.ToInt32(Console.ReadLine());
+                            noOfEmployeesAdded--;
+                            list.Add(employee);
+                        }
+                        repo.AddMultipleEmployees(list);
                         break;
                     case 3:
                         Console.WriteLine("Enter Name");

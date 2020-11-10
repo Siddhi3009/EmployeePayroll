@@ -17,5 +17,6 @@ namespace EmployeePayrollService
         public decimal Tax { get; set; }
         public decimal NetPay { get; set; }
         public DateTime StartDate { get; set; }
+        public int DepartmentId { get; set; }
     }
 }
