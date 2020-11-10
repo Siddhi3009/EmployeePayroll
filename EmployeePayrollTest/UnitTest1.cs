@@ -19,7 +19,7 @@ namespace EmployeePayrollTest
         [TestMethod]
         public void GivenNameAndUpdatedSalary_WhenUpdated_ShouldSyncWithDatabase()
         {
-            bool updateResult = repo.UpdateSalary("Terissa", Convert.ToDecimal("300000"));
+            bool updateResult = repo.UpdateSalary("Terissa", Convert.ToDouble("300000"));
             bool expected = true;
             Assert.AreEqual(updateResult, expected);
         }
@@ -52,6 +52,40 @@ namespace EmployeePayrollTest
             List<EmployeeModel> employees = repo.RetrieveEmployeesWithParticularDateRange(startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
             Assert.AreEqual(employees.Count(), 1);
         }
+        [TestMethod]
+        public void GivenMultipleEmployees_WhenAdded_ShouldReturnNoOfEmployeesAdded()
+        {
+            List<EmployeeModel> empList = new List<EmployeeModel>();
+            EmployeeModel employee1 = new EmployeeModel();
+            employee1.EmployeeName = "Ganesh";
+            employee1.Department = "Marketting";
+            employee1.PhoneNumber = "7845985625";
+            employee1.Address = "Mathura";
+            employee1.Gender = 'M';
+            employee1.BasicPay = 500000M;
+            employee1.Deductions = 0.2M * employee1.BasicPay;
+            employee1.TaxablePay = employee1.BasicPay - employee1.Deductions;
+            employee1.Tax = 0.1M * employee1.TaxablePay;
+            employee1.NetPay = employee1.BasicPay - employee1.Tax;
+            employee1.StartDate = Convert.ToDateTime("23-10-2018");
+            employee1.DepartmentId = 516;
+            empList.Add(employee1);
+            EmployeeModel employee2 = new EmployeeModel();
+            employee2.EmployeeName = "Kanishk";
+            employee2.Department = "Construction";
+            employee2.PhoneNumber = "9856985685";
+            employee2.Address = "Hyderabad";
+            employee2.Gender = 'M';
+            employee2.BasicPay = 400000M;
+            employee2.Deductions = 0.2M * employee2.BasicPay;
+            employee2.TaxablePay = employee2.BasicPay - employee2.Deductions;
+            employee2.Tax = 0.1M * employee2.TaxablePay;
+            employee2.NetPay = employee2.BasicPay - employee2.Tax;
+            employee2.StartDate = Convert.ToDateTime("08-09-2019");
+            employee2.DepartmentId = 584;
+            empList.Add(employee2);
+            int noOfEmployeesAdded = repo.AddMultipleEmployees(empList);
+            Assert.AreEqual(noOfEmployeesAdded, 2);
+        }
     }
 }
-

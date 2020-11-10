@@ -50,7 +50,7 @@ namespace EmployeePayrollService
                             noOfEmployeesAdded--;
                             list.Add(employee);
                         }
-                        repo.AddMultipleEmployees(list);
+                        noOfEmployeesAdded = repo.AddMultipleEmployeesUsingThread(list);
                         break;
                     case 3:
                         Console.WriteLine("Enter Name");

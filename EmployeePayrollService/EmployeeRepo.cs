@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
+
 namespace EmployeePayrollService
 {
     public class EmployeeRepo
@@ -557,5 +559,25 @@ namespace EmployeePayrollService
             }
             return noOfEmployeesAdded;
         }
+        /// <summary>
+        /// Adds Multiple employees using threading
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public int AddMultipleEmployeesUsingThread(List<EmployeeModel> list)
+        {
+            int noOfEmployeesAdded = 0;
+            foreach (EmployeeModel employee in list)
+            {
+                Task thread = new Task(()=>
+                {
+                    noOfEmployeesAdded++;
+                    AddEmployeeToDtabase(employee);
+                });
+                thread.Start();
+            }
+            return noOfEmployeesAdded;
+        }
+
     }
 }
