@@ -569,9 +569,9 @@ namespace EmployeePayrollService
             int noOfEmployeesAdded = 0;
             foreach (EmployeeModel employee in list)
             {
+                noOfEmployeesAdded++;
                 Task thread = new Task(()=>
                 {
-                    noOfEmployeesAdded++;
                     AddEmployeeToDtabase(employee);
                 });
                 thread.Start();
