@@ -74,11 +74,6 @@
       "name": "Mark",
       "salary": 20000,
       "id": 21
-    },
-    {
-      "name": "Chopper",
-      "Salary": "16000",
-      "id": 22
     }
   ]
 }

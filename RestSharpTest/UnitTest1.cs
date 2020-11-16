@@ -49,6 +49,7 @@ namespace RestSharpTest
             JObject jObject = new JObject();
             jObject.Add("name", "Mark");
             jObject.Add("Salary", "20000");
+            //act
             request.AddParameter("application/json", jObject, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             //assert
@@ -92,6 +93,7 @@ namespace RestSharpTest
             JObject jObject = new JObject();
             jObject.Add("name", "Chopper");
             jObject.Add("Salary", "16000");
+            //act
             request.AddParameter("application/json", jObject, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             //assert
@@ -100,6 +102,16 @@ namespace RestSharpTest
             Assert.AreEqual("Chopper", dataResponse.name);
             Assert.AreEqual(16000, dataResponse.Salary);
             Console.WriteLine(response.Content);
+        }
+        [TestMethod]
+        public void GivenEmployee_WhenDeleted_ShouldReturnStatusOk()
+        {
+            //arrange
+            RestRequest request = new RestRequest("/Employees/22", Method.DELETE);
+            //act
+            IRestResponse response = client.Execute(request);
+            //assert
+            Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.OK);
         }
     }
 }
