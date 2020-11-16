@@ -77,7 +77,7 @@
     },
     {
       "name": "Chopper",
-      "salary": 15000,
+      "Salary": "16000",
       "id": 22
     }
   ]
