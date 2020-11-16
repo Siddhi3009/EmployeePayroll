@@ -14,12 +14,12 @@ namespace EmployeePayrollTest
         public void EmployeeDatabase_WhenViewed_ShouldReturnListOfEmployees()
         {
             List<EmployeeModel> employees = repo.GetAllEmployee();
-            Assert.AreEqual(employees.Count(), 8);
+            Assert.AreEqual(employees.Count(), 7);
         }
         [TestMethod]
         public void GivenNameAndUpdatedSalary_WhenUpdated_ShouldSyncWithDatabase()
         {
-            bool updateResult = repo.UpdateSalary("Terissa", Convert.ToDouble("300000"));
+            bool updateResult = repo.UpdateSalary("Siddhi", Convert.ToDouble("300000"));
             bool expected = true;
             Assert.AreEqual(updateResult, expected);
         }
@@ -28,19 +28,16 @@ namespace EmployeePayrollTest
         {
             EmployeeModel employee = new EmployeeModel()
             {
-                EmployeeName = "Mark",
+                EmployeeName = "Mohan",
                 PhoneNumber = "9568214587",
-                Address = "Panagar",
+                Address = "Annanagar",
                 Department = "Sales",
                 Gender = 'M',
                 BasicPay = 50000,
-                Deductions = 200,
-                TaxablePay = 49800,
-                Tax = 500,
-                NetPay = 49300,
-                StartDate = Convert.ToDateTime("8-5-2019")
+                StartDate = Convert.ToDateTime("8-5-2019"),
+                DepartmentId = 899
             };
-            bool result = repo.AddEmployee(employee);
+            bool result = repo.AddEmployeeToDtabase(employee);
             List<EmployeeModel> employeeAdded = repo.RetrieveDataByName("Mark");
             Assert.AreEqual(employeeAdded.Count(), 1);
         }

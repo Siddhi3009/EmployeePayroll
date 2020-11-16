@@ -444,7 +444,7 @@ namespace EmployeePayrollService
         /// <param name="basicPay"></param>
         /// <param name="departmentId"></param>
         /// <param name="department"></param>
-        public void AddEmployeeToDtabase(EmployeeModel employee)
+        public bool AddEmployeeToDtabase(EmployeeModel employee)
         {
             SqlConnection connection = new SqlConnection(connectionString);
             SqlTransaction transaction = null;
@@ -501,6 +501,7 @@ namespace EmployeePayrollService
                     }
                     transaction.Commit();
                 }
+                return true;
             }
             catch (Exception exception)
             {
@@ -510,6 +511,7 @@ namespace EmployeePayrollService
             {
                 connection.Close();
             }
+            return false;
         }
         /// <summary>
         /// Makes employee inactive

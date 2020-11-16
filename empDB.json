@@ -64,6 +64,21 @@
       "name": "Mark",
       "Salary": "20000",
       "id": 19
+    },
+    {
+      "name": "Mark",
+      "Salary": "20000",
+      "id": 20
+    },
+    {
+      "name": "Mark",
+      "salary": 20000,
+      "id": 21
+    },
+    {
+      "name": "Chopper",
+      "salary": 15000,
+      "id": 22
     }
   ]
 }
