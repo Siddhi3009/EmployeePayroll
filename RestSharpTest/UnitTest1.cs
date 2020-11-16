@@ -85,6 +85,9 @@ namespace RestSharpTest
                 Assert.AreEqual(employee.Salary, dataResponse.Salary);
             }
         }
+        /// <summary>
+        /// Test method to check updated salary of employee
+        /// </summary>
         [TestMethod]
         public void GivenEmployee_WhenUpdated_ShouldReturnUpdatedEmployee()
         {
@@ -103,6 +106,9 @@ namespace RestSharpTest
             Assert.AreEqual(16000, dataResponse.Salary);
             Console.WriteLine(response.Content);
         }
+        /// <summary>
+        /// test method to check deletion of employee
+        /// </summary>
         [TestMethod]
         public void GivenEmployee_WhenDeleted_ShouldReturnStatusOk()
         {
