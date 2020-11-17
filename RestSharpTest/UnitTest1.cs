@@ -113,11 +113,14 @@ namespace RestSharpTest
         public void GivenEmployee_WhenDeleted_ShouldReturnStatusOk()
         {
             //arrange
-            RestRequest request = new RestRequest("/Employees/22", Method.DELETE);
+            RestRequest request = new RestRequest("/Employees/21", Method.DELETE);
             //act
             IRestResponse response = client.Execute(request);
             //assert
             Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.OK);
+            IRestResponse result = GetEmployeeList();
+            List<Employee> dataResponse = JsonConvert.DeserializeObject<List<Employee>>(result.Content);
+            Assert.AreEqual(14, dataResponse.Count);
         }
     }
 }
